@@ -135,7 +135,12 @@
         let recruit = parseInt(document.getElementById("soldierCountInput").value);
         let woodcost = recruit * 30;
         let stonecost = recruit * 30;
-        if (woodcost <= wood && stonecost <= stone && recruit <= barracksLevel * 100 - soldiers) {
+        if (woodcost <= wood && stonecost <= stone && barracksLevel < 10 && recruit <= barracksLevel * 100 - soldiers) {
+            soldiers += recruit;
+            wood -= woodcost;
+            stone -= stonecost;
+            window.alert('Zrekrutowano ' + recruit + ' zolnierzy!');
+        else if (woodcost <= wood && stonecost <= stone && barracksLevel = 10) {
             soldiers += recruit;
             wood -= woodcost;
             stone -= stonecost;
