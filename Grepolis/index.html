@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Grepolis Mini</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eef;
+      margin: 0;
+      padding: 20px;
+    }
+    h1, h2 {
+      margin-top: 0;
+    }
+    .section {
+      background-color: #fff;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    button, input[type="number"] {
+      padding: 5px;
+      margin: 5px;
+    }
+    #log {
+      background: #222;
+      color: #0f0;
+      padding: 10px;
+      height: 150px;
+      overflow-y: auto;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <h1>Grepolis Mini</h1>
+  
+  <div class="section">
+    <h2>Zasoby</h2>
+    <p>Drewno: <span id="wood">0</span> | Kamień: <span id="stone">0</span> | Żołnierze: <span id="soldiers">0</span> / <span id="maxSoldiers">100</span></p>
+    <p>LVL: <span id="level">1</span> <span id="xp">0</span>/<span id="xpNeeded">100</span> XP | Złoto: <span id="gold">0</span></p>
+  </div>
+
+  <div class="section">
+    <h2>Budynki</h2>
+    <p>Obóz Drwali (Lv. <span id="woodCampLevel">1</span>) <button onclick="upgradeBuilding('woodCamp')">Ulepsz</button></p>
+    <p>Kamieniołom (Lv. <span id="stoneCampLevel">1</span>) <button onclick="upgradeBuilding('stoneCamp')">Ulepsz</button></p>
+    <p>Koszary (Lv. <span id="barracksLevel">1</span>) <button onclick="upgradeBuilding('barracks')">Ulepsz</button></p>
+  </div>
+
+  <div class="section">
+    <h2>Trening żołnierzy</h2>
+    <input type="number" id="soldierCountInput" placeholder="Ilu żołnierzy?" min="1"/>
+    <button onclick="trainSoldiers()">Rekrutuj</button>
+  </div>
+
+  <div class="section">
+    <h2>Najazdy</h2>
+    <select id="raidSelect"></select>
+    <input type="number" id="raidSoldiers" placeholder="Ilu żołnierzy?" min="1">
+    <button onclick="sendRaid()">Wyślij najazd</button>
+    <div id="log"></div>
+  </div>
+
+  <div class="section">
+    <h2>Sklep premium</h2>
+    <button onclick="buywood()">Kup drewno</button>
+    <button onclick="buystone()">Kup kamien</button>
+    <button onclick="buysoldiers()">Kup zolnierzy</button>
+    <p><strong>100 złota = 0.10 PLN</strong></p>
+    <!-- <button onclick="addGold(100)">Pole Administracji</button> -->
+    <input id="goldCode" placeholder="Wpisz kod...">
+    <button onclick="checkGoldCode()">Zatwierdź kod</button>
+  </div>
+  <div id="saveLoadPanel">
+    <h3>Zapis i Wczytywanie Gry</h3>
+    <button onclick="saveGame()">💾 Zapisz grę</button>
+    <button onclick="loadGame()">📂 Wczytaj grę</button>
+  </div>
+  <script>
+    let wood = 0, stone = 0, soldiers = 0, gold = 0, xp = 0, level = 1;
+    let woodCampLevel = 1, stoneCampLevel = 1, barracksLevel = 1;
+    const logBox = document.getElementById("log");
+
+    const raids = [
+      { name: "Najazd Lv. 1 (1–49)", levelReq: 1, max: 100 },
+      { name: "Najazd Lv. 2 (50–99)", levelReq: 50, max: 300 },
+      { name: "Najazd Lv. 3 (100–199)", levelReq: 100, max: 500 },
+      { name: "Najazd Lv. 4 (200–299)", levelReq: 200, max: 1000 },
+      { name: "Najazd Lv. 5 (300+)", levelReq: 300, max: Infinity }
+    ];
+
+    raids.forEach((r, i) => {
+      const opt = document.createElement("option");
+      opt.value = i;
+      opt.textContent = r.name + " (max " + (r.max === Infinity ? "∞" : r.max) + ")";
+      document.getElementById("raidSelect").appendChild(opt);
+    });
+
+    function updateUI() {
+      document.getElementById("wood").textContent = wood;
+      document.getElementById("stone").textContent = stone;
+      document.getElementById("soldiers").textContent = soldiers;
+      document.getElementById("gold").textContent = gold;
+      document.getElementById("level").textContent = level;
+      document.getElementById("xp").textContent = xp;
+      document.getElementById("xpNeeded").textContent = level * 100;
+      document.getElementById("woodCampLevel").textContent = woodCampLevel;
+      document.getElementById("stoneCampLevel").textContent = stoneCampLevel;
+      document.getElementById("barracksLevel").textContent = barracksLevel;
+      document.getElementById("maxSoldiers").textContent = barracksLevel < 10 ? barracksLevel * 100 : '∞';
+    }
+
+    function log(msg) {
+      logBox.textContent += msg + "\n";
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    function upgradeBuilding(type) {
+      let level = type === 'woodCamp' ? woodCampLevel : type === 'stoneCamp' ? stoneCampLevel : barracksLevel;
+      if (wood >= (level + 1) * 100 && stone >= (level + 1) * 100) {
+        wood -= (level + 1) * 100;
+        stone -= (level + 1) * 100;
+        if (type === 'woodCamp') woodCampLevel++;
+        else if (type === 'stoneCamp') stoneCampLevel++;
+        else if (type === 'barracks' && barracksLevel < 10) barracksLevel++;
+        updateUI();
+      }
+    }
+
+
+    function trainSoldiers() {
+        let recruit = parseInt(document.getElementById("soldierCountInput").value);
+        let woodcost = recruit * 30;
+        let stonecost = recruit * 30;
+        if (woodcost <= wood && stonecost <= stone && recruit <= barracksLevel * 100 - soldiers) {
+            soldiers += recruit;
+            wood -= woodcost;
+            stone -= stonecost;
+            window.alert('Zrekrutowano ' + recruit + ' zolnierzy!');
+        }
+        else if (woodcost > wood || stonecost > stone || recruit > barracksLevel * 100 - soldiers) {
+            window.alert('Nie masz odpowiednio duzo surowcow, lub nie masz wystarczajaco duzo miejsca w koszarach!')
+        }
+    }
+
+    function sendRaid() {
+      const raid = raids[document.getElementById("raidSelect").value];
+      const send = parseInt(document.getElementById("raidSoldiers").value);
+      if (level < raid.levelReq) return log("Za niski poziom!");
+      if (send > soldiers) return log("Nie masz tylu żołnierzy!");
+      if (send > raid.max) return log("Za dużo żołnierzy na ten najazd!");
+      let xpGain = 0, woodGain = 0, stoneGain = 0, survived = 0;
+      for (let i = 0; i < send; i++) {
+        xpGain += Math.floor(Math.random() * 5) + 1;
+        woodGain += 3;
+        stoneGain += 3;
+        if (Math.random() < 0.5) survived++;
+      }
+      soldiers -= send;
+      soldiers += survived;
+      wood += woodGain;
+      stone += stoneGain;
+      xp += xpGain;
+      while (xp >= level * 100) {
+        xp -= level * 100;
+        level++;
+        log("Awans! Nowy poziom: " + level);
+      }
+      log("Najazd: wysłano " + send + ", przeżyło " + survived + ", XP: " + xpGain + ", surowce: " + woodGain + "/" + stoneGain);
+      updateUI();
+    }
+
+    function addGold(amount) {
+      gold += amount;
+      updateUI();
+    }
+
+    function checkGoldCode() {
+      const now = new Date();
+      const code = document.getElementById("goldCode").value;
+      const hour = now.getHours().toString().padStart(2, '0');
+      const min = now.getMinutes().toString().padStart(2, '0');
+      if (code === "ADDGOLD" + hour + min) {
+        gold += 500;
+        updateUI();
+      }
+    }
+
+    setInterval(() => {
+      wood += woodCampLevel * 10;
+      stone += stoneCampLevel * 10;
+      updateUI();
+    }, 1000);
+
+    function buywood() {
+        if (gold >= 100) {
+            gold -= 100;
+            wood += 10000;
+            window.alert('Pomyslnie zakupiono 10,000 drewna!');
+        }
+        else if (gold < 100) {
+            window.alert('Nie masz wystarczajaco duzo zlota, aby sfinalizować ta transakcje');
+        }
+    }
+
+    function buystone() {
+        if (gold >= 100) {
+            gold -= 100;
+            stone += 10000;
+            window.alert('Pomyslnie zakupiono 10,000 kamienia!');
+        }
+        else if (gold < 100) {
+            window.alert('Nie masz wystarczajaco duzo zlota, aby sfinalizować ta transakcje');
+        }
+    }
+
+    function buysoldiers() {
+        if (gold >= 100 && barracksLevel * 100 - soldiers >= 1000) {
+            gold -= 100;
+            soldiers += 1000;
+            window.alert('Pomyslnie zakupiono 1,000 zolnierzy!');
+        }
+        else if (gold < 100 || barracksLevel * 100 - soldiers < 1000) {
+            window.alert('Nie masz wystarczajaco duzo zlota, aby sfinalizować ta transakcje, lub nie masz wystarczajaco duzo miejsca w koszarach aby pomiescic wszystkich zolnierzy!');
+        }
+    }
+    function saveGame() {
+        const gameData = {
+            wood: wood,
+            stone: stone,
+            soldiers: soldiers,
+            gold: gold,
+            xp: xp,
+            level: level,
+            woodCampLevel: woodCampLevel,
+            stoneCampLevel: stoneCampLevel,
+            barracksLevel: barracksLevel
+        };
+        localStorage.setItem("myGrepolisSave", JSON.stringify(gameData));
+        alert("Gra została zapisana!");
+    }
+
+    function loadGame() {
+        const saved = localStorage.getItem("myGrepolisSave");
+        if (saved) {
+            const gameData = JSON.parse(saved);
+            wood = gameData.wood;
+            stone = gameData.stone;
+            soldiers = gameData.soldiers;
+            gold = gameData.gold;
+            xp = gameData.xp;
+            level = gameData.level;
+            woodCampLevel = gameData.woodCampLevel;
+            stoneCampLevel = gameData.stoneCampLevel;
+            barracksLevel = gameData.barracksLevel;
+            alert("Gra została wczytana!");
+        } else {
+            alert("Brak zapisu gry.");
+        }
+    }
+
+    updateUI();
+  </script>
+</body>
+</html>
