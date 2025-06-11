@@ -68,7 +68,7 @@
 
   <div class="section">
     <h2>Sklep premium</h2>
-    <p>Złoto: <span id="gold">0</span></p>
+    <p>Złoto: <span id="premiumgold">0</span></p>
     <button onclick="buywood()">Kup drewno (10,000)</button>
     <button onclick="buystone()">Kup kamień (10,000)</button>
     <button onclick="buysoldiers()">Kup żołnierzy (1,000)</button>
@@ -107,6 +107,7 @@
       document.getElementById("stone").textContent = stone;
       document.getElementById("soldiers").textContent = soldiers;
       document.getElementById("gold").textContent = gold;
+      document.getElementById("premiumgold").textContent = gold;
       document.getElementById("level").textContent = level;
       document.getElementById("xp").textContent = xp;
       document.getElementById("xpNeeded").textContent = level * 100;
@@ -193,7 +194,7 @@
       const hour = now.getHours().toString().padStart(2, '0');
       const min = now.getMinutes().toString().padStart(2, '0');
       if (code === "ADDGOLD" + hour + min) {
-        gold += 500;
+        gold += 100;
         updateUI();
       }
     }
