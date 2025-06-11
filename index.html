@@ -45,6 +45,7 @@
 
   <div class="section">
     <h2>Budynki</h2>
+    <p>Koszt rozbudowy to poziom do którego chcesz rozbudować budynek * 100.</p>
     <p>Obóz Drwali (Lv. <span id="woodCampLevel">1</span>) <button onclick="upgradeBuilding('woodCamp')">Ulepsz</button></p>
     <p>Kamieniołom (Lv. <span id="stoneCampLevel">1</span>) <button onclick="upgradeBuilding('stoneCamp')">Ulepsz</button></p>
     <p>Koszary (Lv. <span id="barracksLevel">1</span>) <button onclick="upgradeBuilding('barracks')">Ulepsz</button></p>
@@ -52,6 +53,7 @@
 
   <div class="section">
     <h2>Trening żołnierzy</h2>
+    <p>Koszt jednego żołnierza to po 30 drewna i kamienia.</p>
     <input type="number" id="soldierCountInput" placeholder="Ilu żołnierzy?" min="1"/>
     <button onclick="trainSoldiers()">Rekrutuj</button>
   </div>
@@ -66,10 +68,10 @@
 
   <div class="section">
     <h2>Sklep premium</h2>
-    <button onclick="buywood()">Kup drewno</button>
-    <button onclick="buystone()">Kup kamien</button>
-    <button onclick="buysoldiers()">Kup zolnierzy</button>
-    <p><strong>100 złota = 0.10 PLN</strong></p>
+    <button onclick="buywood()">Kup drewno (10,000)</button>
+    <button onclick="buystone()">Kup kamień (10,000)</button>
+    <button onclick="buysoldiers()">Kup żołnierzy (1,000)</button>
+    <p><strong>100 złota = 1.00 PLN</strong></p>
     <!-- <button onclick="addGold(100)">Pole Administracji</button> -->
     <input id="goldCode" placeholder="Wpisz kod...">
     <button onclick="checkGoldCode()">Zatwierdź kod</button>
