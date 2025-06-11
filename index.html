@@ -233,7 +233,7 @@
     }
     
     function exchangewood() {
-      const exchangequantitywood = parseInt(document.getElementById("stoneexchange").value, 10);
+      const exchangequantitywood = parseInt(document.getElementById("woodexchange").value, 10);
       if (Number.isInteger(exchangequantitywood / 2) && exchangequantitywood <= wood) {
         stone += exchangequantitywood / 2;
         wood -= exchangequantitywood;
