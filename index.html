@@ -72,6 +72,7 @@
 
   <div class="section">
     <h2>Trening żołnierzy</h2>
+    <p>Aktualnie masz <span id="soldiers2">0</span> żołnierzy.</p>
     <p>Koszt jednego żołnierza to po 30 drewna i kamienia.</p>
     <input type="number" id="soldierCountInput" placeholder="Ilu żołnierzy?" min="1"/>
     <button onclick="trainSoldiers()">Rekrutuj</button>
@@ -133,6 +134,7 @@
       document.getElementById("wood").textContent = wood;
       document.getElementById("stone").textContent = stone;
       document.getElementById("soldiers").textContent = soldiers;
+      document.getElementById("soldiers2").textContent = soldiers;
       document.getElementById("gold").textContent = gold;
       document.getElementById("premiumgold").textContent = gold;
       document.getElementById("pln").textContent = pln.toFixed(2) + ' PLN';
