@@ -72,7 +72,7 @@
 
   <div class="section">
     <h2>Trening żołnierzy</h2>
-    <p>Aktualnie masz <span id="soldiers2">0</span> żołnierzy.</p>
+    <p>Aktualnie masz <span id="soldiers2">0</span>/<span id="maxSoldiers2">0</span> żołnierzy.</p>
     <p>Koszt jednego żołnierza to po 30 drewna i kamienia.</p>
     <input type="number" id="soldierCountInput" placeholder="Ilu żołnierzy?" min="1"/>
     <button onclick="trainSoldiers()">Rekrutuj</button>
@@ -147,6 +147,7 @@
       document.getElementById("stoneCampLevel").textContent = stoneCampLevel;
       document.getElementById("barracksLevel").textContent = barracksLevel;
       document.getElementById("maxSoldiers").textContent = barracksLevel < 10 ? barracksLevel * 100 : '∞';
+      document.getElementById("maxSoldiers2").textContent = barracksLevel < 10 ? barracksLevel * 100 : '∞';
     }
 
     function log(msg) {
