@@ -162,7 +162,11 @@
         stone -= (level + 1) * 100;
         if (type === 'woodCamp') woodCampLevel++;
         else if (type === 'stoneCamp') stoneCampLevel++;
-        else if (type === 'barracks' && barracksLevel < 10) barracksLevel++;
+        
+      else if (wood >= (level + 1) * 100 && stone >= (level + 1) * 100 && barracksLevel < 10) {
+        wood -= (level + 1) * 100;
+        stone -= (level + 1) * 100;
+        if (type === 'barracks' && barracksLevel < 10) barracksLevel++;
         updateUI();
       }
     }
