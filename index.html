@@ -156,21 +156,30 @@
     }
 
     function upgradeBuilding(type) {
-      let level = type === 'woodCamp' ? woodCampLevel : type === 'stoneCamp' ? stoneCampLevel : barracksLevel;
-      if (wood >= (level + 1) * 100 && stone >= (level + 1) * 100) {
-        wood -= (level + 1) * 100;
-        stone -= (level + 1) * 100;
+      let level;
+      if (type === 'woodCamp') {
+        level = woodCampLevel;
+      } else if (type === 'stoneCamp') {
+        level = stoneCampLevel;
+      } else if (type === 'barracks') {
+        level = barracksLevel;
+        if (level >= 10) return; // nie ulepszaj i nie pobieraj surowców, jeśli już 10
+      }
+    
+      const cost = (level + 1) * 100;
+    
+      if (wood >= cost && stone >= cost) {
+        // Dopiero teraz odejmujemy surowce
+        wood -= cost;
+        stone -= cost;
+    
+        // I zwiększamy poziom odpowiedniego budynku
         if (type === 'woodCamp') woodCampLevel++;
         else if (type === 'stoneCamp') stoneCampLevel++;
-      }
-        
-      else if (wood >= (level + 1) * 100 && stone >= (level + 1) * 100 && barracksLevel < 10) {
-        wood -= (level + 1) * 100;
-        stone -= (level + 1) * 100;
-        if (type === 'barracks' && barracksLevel < 10) barracksLevel++;
-        updateUI();
+        else if (type === 'barracks') barracksLevel++;
       }
     }
+
 
 
     function trainSoldiers() {
