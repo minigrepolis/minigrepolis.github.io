@@ -35,7 +35,7 @@
   </style>
 </head>
 <body>
-  <h1>Grepolis Mini</h1>
+  <h1>Mini Grepolis</h1>
   
   <div class="section">
     <h2>Zasoby</h2>
@@ -87,6 +87,20 @@
   </div>
 
   <div class="section">
+    <h2>Regiony</h2>
+    <p>Region 1 - <span id="region1completed">STATUS</span></p>
+    <p>Region 2 - <span id="region2completed">STATUS</span></p>
+    <p>Region 3 - <span id="region3completed">STATUS</span></p>
+    <p>Region 4 - <span id="region4completed">STATUS</span></p>
+    <p>Region 5 - <span id="region5completed">STATUS</span></p>
+    <p>Region 6 - <span id="region6completed">STATUS</span></p>
+    <p>Region 7 - <span id="region7completed">STATUS</span></p>
+    <p>Region 8 - <span id="region8completed">STATUS</span></p>
+    <p>Region 9 - <span id="region9completed">STATUS</span></p>
+    <p>Region 10 - <span id="region10completed">STATUS</span></p>
+  </div>
+
+  <div class="section">
     <h2>Sklep premium</h2>
     <p>Złoto: <span id="premiumgold">0</span></p>
     <p>Złoty przycisk:</p>
@@ -112,7 +126,7 @@
   <script>
     let wood = 0, stone = 0, soldiers = 0, gold = 100, xp = 0, level = 1, pln = 0, allowed = 0;
     let woodCampLevel = 1, stoneCampLevel = 1, barracksLevel = 1;
-    let goldpress = 0, earnedgold = 0;
+    let goldpress = 0, earnedgold = 0, region = 1, totalsoldiers = 0, regiongoal = 1000;
     const logBox = document.getElementById("log");
 
     const raids = [
@@ -122,6 +136,7 @@
       { name: "Najazd Lv. 4 (200–299)", levelReq: 200, max: 1000 },
       { name: "Najazd Lv. 5 (300+)", levelReq: 300, max: Infinity }
     ];
+
 
     raids.forEach((r, i) => {
       const opt = document.createElement("option");
@@ -206,6 +221,7 @@
     function sendRaid() {
       const raid = raids[document.getElementById("raidSelect").value];
       const send = parseInt(document.getElementById("raidSoldiers").value);
+      totalsoldiers += send;
       if (level < raid.levelReq) return log("Za niski poziom!");
       if (send > soldiers) return log("Nie masz tylu żołnierzy!");
       if (send > raid.max) return log("Za dużo żołnierzy na ten najazd!");
@@ -247,7 +263,6 @@
           pln += 0.01;
         }
       }
-
       soldiers -= send;
       soldiers += survived;
       wood += woodGain;
@@ -260,6 +275,268 @@
       }
       log("Najazd: wysłano " + send + ", przeżyło " + survived + ", XP: " + xpGain + ", surowce: " + woodGain + "/" + stoneGain);
       updateUI();
+    }
+
+    function regionStatus() {
+        if (region === 1) {
+            document.getElementById("region1completed").textContent = "🟡 W toku " + totalsoldiers + "/" + regiongoal;
+            document.getElementById("region2completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region3completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region4completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region5completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region6completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region7completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region8completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region9completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region10completed").textContent = "⛔ Zablokowane";
+        }
+        if (region === 2) {
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region2completed").textContent = "🟡 W toku " + totalsoldiers + "/" + regiongoal;
+            document.getElementById("region3completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region4completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region5completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region6completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region7completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region8completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region9completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region10completed").textContent = "⛔ Zablokowane";
+        }
+        if (region === 3) {
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region2completed").textContent = "✅ Ukończono";
+            document.getElementById("region3completed").textContent = "🟡 W toku " + totalsoldiers + "/" + regiongoal;
+            document.getElementById("region4completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region5completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region6completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region7completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region8completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region9completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region10completed").textContent = "⛔ Zablokowane";
+        }
+        if (region === 4) {
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region2completed").textContent = "✅ Ukończono";
+            document.getElementById("region3completed").textContent = "✅ Ukończono";
+            document.getElementById("region4completed").textContent = "🟡 W toku " + totalsoldiers + "/" + regiongoal;
+            document.getElementById("region5completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region6completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region7completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region8completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region9completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region10completed").textContent = "⛔ Zablokowane";
+        }
+        if (region === 5) {
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region2completed").textContent = "✅ Ukończono";
+            document.getElementById("region3completed").textContent = "✅ Ukończono";
+            document.getElementById("region4completed").textContent = "✅ Ukończono";
+            document.getElementById("region5completed").textContent = "🟡 W toku " + totalsoldiers + "/" + regiongoal;
+            document.getElementById("region6completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region7completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region8completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region9completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region10completed").textContent = "⛔ Zablokowane";
+        }
+        if (region === 6) {
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region2completed").textContent = "✅ Ukończono";
+            document.getElementById("region3completed").textContent = "✅ Ukończono";
+            document.getElementById("region4completed").textContent = "✅ Ukończono";
+            document.getElementById("region5completed").textContent = "✅ Ukończono";
+            document.getElementById("region6completed").textContent = "🟡 W toku " + totalsoldiers + "/" + regiongoal;
+            document.getElementById("region7completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region8completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region9completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region10completed").textContent = "⛔ Zablokowane";
+        }
+        if (region === 7) {
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region2completed").textContent = "✅ Ukończono";
+            document.getElementById("region3completed").textContent = "✅ Ukończono";
+            document.getElementById("region4completed").textContent = "✅ Ukończono";
+            document.getElementById("region5completed").textContent = "✅ Ukończono";
+            document.getElementById("region7completed").textContent = "🟡 W toku " + totalsoldiers + "/" + regiongoal;
+            document.getElementById("region8completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region9completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region10completed").textContent = "⛔ Zablokowane";
+        }
+        if (region === 8) {
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region2completed").textContent = "✅ Ukończono";
+            document.getElementById("region3completed").textContent = "✅ Ukończono";
+            document.getElementById("region4completed").textContent = "✅ Ukończono";
+            document.getElementById("region5completed").textContent = "✅ Ukończono";
+            document.getElementById("region8completed").textContent = "🟡 W toku " + totalsoldiers + "/" + regiongoal;
+            document.getElementById("region9completed").textContent = "⛔ Zablokowane";
+            document.getElementById("region10completed").textContent = "⛔ Zablokowane";
+        }
+        if (region === 9) {
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region2completed").textContent = "✅ Ukończono";
+            document.getElementById("region3completed").textContent = "✅ Ukończono";
+            document.getElementById("region4completed").textContent = "✅ Ukończono";
+            document.getElementById("region5completed").textContent = "✅ Ukończono";
+            document.getElementById("region9completed").textContent = "🟡 W toku " + totalsoldiers + "/" + regiongoal;
+            document.getElementById("region10completed").textContent = "⛔ Zablokowane";
+        }
+        if (region === 10) {
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region2completed").textContent = "✅ Ukończono";
+            document.getElementById("region3completed").textContent = "✅ Ukończono";
+            document.getElementById("region4completed").textContent = "✅ Ukończono";
+            document.getElementById("region5completed").textContent = "✅ Ukończono";
+            document.getElementById("region10completed").textContent = "🟡 W toku " + totalsoldiers + "/" + regiongoal;
+        }
+        if (region === 11) {
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region1completed").textContent = "✅ Ukończono";
+            document.getElementById("region2completed").textContent = "✅ Ukończono";
+            document.getElementById("region3completed").textContent = "✅ Ukończono";
+            document.getElementById("region4completed").textContent = "✅ Ukończono";
+            document.getElementById("region5completed").textContent = "✅ Ukończono";
+            document.getElementById("region10completed").textContent = "✅ Ukończono";
+        }
+    }
+
+    function  regionComplete() {
+        if (region === 1) {
+            if (totalsoldiers >= regiongoal) {
+                xp += 10000;
+                gold += 50;
+                region = 2;
+                totalsoldiers = 0;
+                regiongoal = 10000;
+            }
+            else if (totalsoldiers < regiongoal) {
+                null
+            }
+        }
+        if (region === 2) {
+            if (totalsoldiers >= regiongoal) {
+                xp += 50000;
+                gold += 100;
+                region = 3;
+                totalsoldiers = 0;
+                regiongoal = 50000;
+            }
+            else if (totalsoldiers < regiongoal) {
+                null
+            }
+        }
+        if (region === 3) {
+            if (totalsoldiers >= regiongoal) {
+                xp += 100000;
+                gold += 150;
+                region = 4;
+                totalsoldiers = 0;
+                regiongoal = 100000;
+            }
+            else if (totalsoldiers < regiongoal) {
+                null
+            }
+        }
+        if (region === 4) {
+            if (totalsoldiers >= regiongoal) {
+                xp += 300000;
+                gold += 200;
+                region = 5;
+                totalsoldiers = 0;
+                regiongoal = 200000;
+            }
+            else if (totalsoldiers < regiongoal) {
+                null
+            }
+        }
+        if (region === 5) {
+            if (totalsoldiers >= regiongoal) {
+                xp += 500000;
+                gold += 250;
+                region = 6;
+                totalsoldiers = 0;
+                regiongoal = 300000;
+            }
+            else if (totalsoldiers < regiongoal) {
+                null
+            }
+        }
+        if (region === 6) {
+            if (totalsoldiers >= regiongoal) {
+                xp += 1000000;
+                gold += 300;
+                region = 7;
+                totalsoldiers = 0;
+                regiongoal = 400000;
+            }
+            else if (totalsoldiers < regiongoal) {
+                null
+            }
+        }
+        if (region === 7) {
+            if (totalsoldiers >= regiongoal) {
+                xp += 1500000;
+                gold += 350;
+                region = 8;
+                totalsoldiers = 0;
+                regiongoal = 500000;
+            }
+            else if (totalsoldiers < regiongoal) {
+                null
+            }
+        }
+        if (region === 8) {
+            if (totalsoldiers >= regiongoal) {
+                xp += 2000000;
+                gold += 400;
+                region = 9;
+                totalsoldiers = 0;
+                regiongoal = 600000;
+            }
+            else if (totalsoldiers < regiongoal) {
+                null
+            }
+        }
+        if (region === 9) {
+            if (totalsoldiers >= regiongoal) {
+                xp += 2500000;
+                gold += 450;
+                region = 10;
+                totalsoldiers = 0;
+                regiongoal = 700000;
+            }
+            else if (totalsoldiers < regiongoal) {
+                null
+            }
+        }
+        if (region === 10) {
+            if (totalsoldiers >= regiongoal) {
+                xp += 3000000;
+                gold += 500;
+                region = 11;
+                totalsoldiers = 0;
+                regiongoal = undefined;
+            }
+            else if (totalsoldiers < regiongoal) {
+                null
+            }
+        }
+        if (region === 11) {
+            null
+            
+        }
     }
     
     function exchangewood() {
@@ -379,7 +656,11 @@
             stoneCampLevel: stoneCampLevel,
             barracksLevel: barracksLevel,
             allowed: allowed,
-            pln: pln
+            pln: pln,
+            earnedgold: earnedgold,
+            region: region,
+            regiongoal: regiongoal,
+            totalsoldiers: totalsoldiers
         };
         localStorage.setItem("myGrepolisSave", JSON.stringify(gameData));
         alert("Gra została zapisana!");
@@ -400,6 +681,11 @@
             barracksLevel = gameData.barracksLevel;
             allowed = gameData.allowed;
             pln = gameData.pln;
+            earnedgold = gameData.earnedgold;
+            region = gameData.region;
+            regiongoal = gameData.regiongoal;
+            totalsoldiers = gameData.totalsoldiers;
+
             alert("Gra została wczytana!");
         } else {
             alert("Brak zapisu gry.");
@@ -407,6 +693,11 @@
     }
 
     updateUI();
+    function regionUpdater() {
+        regionStatus();
+        regionComplete();
+    }
+    setInterval(regionUpdater, 500);
   </script>
 </body>
 </html>
