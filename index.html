@@ -268,6 +268,7 @@
       wood += woodGain;
       stone += stoneGain;
       xp += xpGain;
+      regionUpdater();
       while (xp >= level * 100) {
         xp -= level * 100;
         level++;
@@ -690,6 +691,7 @@
             totalsoldiers = gameData.totalsoldiers;
 
             alert("Gra została wczytana!");
+            regionUpdater();
         } else {
             alert("Brak zapisu gry.");
         }
@@ -700,7 +702,6 @@
         regionStatus();
         regionComplete();
     }
-    setInterval(regionUpdater, 500);
   </script>
 </body>
 </html>
