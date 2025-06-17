@@ -413,7 +413,10 @@
     }
 
     function  regionComplete() {
-        if (region === 1) {
+        if (region === 0) {
+            region = 1;
+        }
+        else if (region === 1) {
             if (totalsoldiers >= regiongoal) {
                 xp += 10000;
                 gold += 50;
@@ -425,7 +428,7 @@
                 null
             }
         }
-        if (region === 2) {
+        else if (region === 2) {
             if (totalsoldiers >= regiongoal) {
                 xp += 50000;
                 gold += 100;
@@ -437,7 +440,7 @@
                 null
             }
         }
-        if (region === 3) {
+        else if (region === 3) {
             if (totalsoldiers >= regiongoal) {
                 xp += 100000;
                 gold += 150;
@@ -449,7 +452,7 @@
                 null
             }
         }
-        if (region === 4) {
+        else if (region === 4) {
             if (totalsoldiers >= regiongoal) {
                 xp += 300000;
                 gold += 200;
@@ -461,7 +464,7 @@
                 null
             }
         }
-        if (region === 5) {
+        else if (region === 5) {
             if (totalsoldiers >= regiongoal) {
                 xp += 500000;
                 gold += 250;
@@ -473,7 +476,7 @@
                 null
             }
         }
-        if (region === 6) {
+        else if (region === 6) {
             if (totalsoldiers >= regiongoal) {
                 xp += 1000000;
                 gold += 300;
@@ -485,7 +488,7 @@
                 null
             }
         }
-        if (region === 7) {
+        else if (region === 7) {
             if (totalsoldiers >= regiongoal) {
                 xp += 1500000;
                 gold += 350;
@@ -497,7 +500,7 @@
                 null
             }
         }
-        if (region === 8) {
+        else if (region === 8) {
             if (totalsoldiers >= regiongoal) {
                 xp += 2000000;
                 gold += 400;
@@ -509,7 +512,7 @@
                 null
             }
         }
-        if (region === 9) {
+        else if (region === 9) {
             if (totalsoldiers >= regiongoal) {
                 xp += 2500000;
                 gold += 450;
@@ -521,7 +524,7 @@
                 null
             }
         }
-        if (region === 10) {
+        else if (region === 10) {
             if (totalsoldiers >= regiongoal) {
                 xp += 3000000;
                 gold += 500;
@@ -533,7 +536,7 @@
                 null
             }
         }
-        if (region === 11) {
+        else if (region === 11) {
             null
             
         }
