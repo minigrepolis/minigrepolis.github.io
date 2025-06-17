@@ -414,10 +414,7 @@
     }
 
     function  regionComplete() {
-        if (region === 0) {
-            region = 1;
-        }
-        else if (region === 1) {
+        if (region === 1) {
             if (totalsoldiers >= regiongoal) {
                 xp += 10000;
                 gold += 50;
@@ -692,6 +689,7 @@
 
             alert("Gra została wczytana!");
             regionUpdater();
+            if (region === 0) region = 1;
         } else {
             alert("Brak zapisu gry.");
         }
